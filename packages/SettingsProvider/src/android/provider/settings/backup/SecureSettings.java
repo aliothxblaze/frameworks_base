@@ -283,6 +283,7 @@ public class SecureSettings {
         Settings.Secure.TETHERING_ALLOW_VPN_UPSTREAMS,
         Settings.Secure.DOZE_FOR_NOTIFICATIONS,
         Settings.Secure.DOZE_PICK_UP_GESTURE_AMBIENT,
-        Settings.Secure.DOZE_TAP_GESTURE_AMBIENT
+        Settings.Secure.DOZE_TAP_GESTURE_AMBIENT,
+        Settings.Secure.STATUS_BAR_CLOCK
     };
 }
