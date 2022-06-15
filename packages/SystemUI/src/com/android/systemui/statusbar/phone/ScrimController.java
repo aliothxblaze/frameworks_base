@@ -423,12 +423,6 @@ public class ScrimController implements ViewTreeObserver.OnPreDrawListener, Dump
         behindScrim.enableBottomEdgeConcave(mClipsQsScrim);
         mNotificationsScrim.enableRoundedCorners(true);
 
-        if (mScrimBehind != null) {
-            mCustomScrimAlpha = (Settings.System.getFloatForUser(
-                mScrimBehind.getContext().getContentResolver(),
-                Settings.System.QS_TRANSPARENCY, 100,
-                UserHandle.USER_CURRENT) / 100);
-        }
         final ScrimState[] states = ScrimState.values();
         for (int i = 0; i < states.length; i++) {
             states[i].init(mScrimInFront, mScrimBehind, mDozeParameters, mDockManager);
@@ -984,6 +978,14 @@ public class ScrimController implements ViewTreeObserver.OnPreDrawListener, Dump
         }
     }
 
+    public void setCustomScrimAlpha(int value) {
+        mCustomScrimAlpha = (float) value / 100f;
+        for (ScrimState state : ScrimState.values()) {
+            state.setCustomScrimAlpha(mCustomScrimAlpha);
+        }
+        applyState();
+    }
+
     private void applyState() {
         mInFrontTint = mState.getFrontTint();
         mBehindTint = mState.getBehindTint();
@@ -1041,7 +1043,7 @@ public class ScrimController implements ViewTreeObserver.OnPreDrawListener, Dump
                         interpolatedFraction);
             }
         } else if (mState == ScrimState.AUTH_SCRIMMED_SHADE) {
-            mNotificationsAlpha = (float) Math.pow(getInterpolatedFraction(), 0.8f);
+            mNotificationsAlpha = (float) Math.pow(getInterpolatedFraction(), 0.8f) * mCustomScrimAlpha;
         } else if (mState == ScrimState.KEYGUARD || mState == ScrimState.SHADE_LOCKED
                 || mState == ScrimState.PULSING || mState == ScrimState.GLANCEABLE_HUB) {
             Pair<Integer, Float> result = calculateBackStateForState(mState);
@@ -1070,10 +1072,11 @@ public class ScrimController implements ViewTreeObserver.OnPreDrawListener, Dump
                 mBehindAlpha = behindAlpha;
                 if (mState == ScrimState.KEYGUARD && mTransitionToFullShadeProgress > 0.0f) {
                     mNotificationsAlpha = MathUtils
-                            .saturate(mTransitionToLockScreenFullShadeNotificationsProgress);
+                            .saturate(mTransitionToLockScreenFullShadeNotificationsProgress)
+                            * mCustomScrimAlpha;
                 } else if (mState == ScrimState.SHADE_LOCKED) {
                     // going from KEYGUARD to SHADE_LOCKED state
-                    mNotificationsAlpha = getInterpolatedFraction();
+                    mNotificationsAlpha = getInterpolatedFraction() * mCustomScrimAlpha;
                 } else if (mState == ScrimState.GLANCEABLE_HUB
                         && mTransitionToFullShadeProgress == 0.0f) {
                     // Notification scrim should not be visible on the glanceable hub unless the
@@ -1082,7 +1085,7 @@ public class ScrimController implements ViewTreeObserver.OnPreDrawListener, Dump
                     // closes.
                     mNotificationsAlpha = 0;
                 } else {
-                    mNotificationsAlpha = Math.max(1.0f - getInterpolatedFraction(), mQsExpansion);
+                    mNotificationsAlpha = Math.max(1.0f - getInterpolatedFraction(), mQsExpansion) * mCustomScrimAlpha;
                 }
                 mNotificationsTint = mState.getNotifTint();
                 mBehindTint = behindTint;
