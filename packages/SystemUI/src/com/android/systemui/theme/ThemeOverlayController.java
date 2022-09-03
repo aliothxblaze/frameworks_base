@@ -502,6 +502,23 @@ public class ThemeOverlayController implements CoreStartable, Dumpable {
             return;
         }
 
+        mContext.getContentResolver().registerContentObserver(
+            Settings.Secure.getUriFor(Settings.Secure.QS_BRIGHTNESS_SLIDER_POSITION),
+            false,
+            new ContentObserver(mBgHandler) {
+                @Override
+                public void onChange(boolean selfChange, Uri uri) {
+                    if (DEBUG) Log.d(TAG, "Overlay changed for user: " + mUserTracker.getUserId());
+                    if (!mDeviceProvisionedController.isUserSetup(mUserTracker.getUserId())) {
+                        Log.i(TAG, "Theme application deferred when setting changed.");
+                        mDeferredThemeEvaluation = true;
+                        return;
+                    }
+                    reevaluateSystemTheme(true /* forceReload */);
+                }
+            }
+        );
+
         mUserTracker.addCallback(mUserTrackerCallback, mMainExecutor);
         mDeviceProvisionedController.addCallback(mDeviceProvisionedListener);
 
