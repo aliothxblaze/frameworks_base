@@ -280,6 +280,7 @@ import com.android.server.usage.UsageStatsService;
 import com.android.server.usb.UsbService;
 import com.android.server.utils.TimingsTraceAndSlog;
 import com.android.server.custom.CustomDeviceConfigService;
+import com.android.server.vibrator.LinearmotorVibratorService;
 import com.android.server.vibrator.VibratorManagerService;
 import com.android.server.voiceinteraction.VoiceInteractionManagerService;
 import com.android.server.vr.VrManagerService;
@@ -2661,6 +2662,10 @@ public final class SystemServer implements Dumpable {
             // LineageHardware
             t.traceBegin("StartLineageHardwareService");
             mSystemServiceManager.startService(LineageHardwareService.class);
+            t.traceEnd();
+
+            t.traceBegin("StartLinearmotorVibratorService");
+            mSystemServiceManager.startService(LinearmotorVibratorService.class);
             t.traceEnd();
 
             // LiveDisplay
