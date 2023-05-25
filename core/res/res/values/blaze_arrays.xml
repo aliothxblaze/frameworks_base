@@ -5,4 +5,7 @@
 -->
 <resources>
 
+    <!-- Mock Oplus LinearmotorVibratorService -->
+    <bool name="config_mockOplusLinearmotorVibratorService">false</bool>
+
 </resources>
