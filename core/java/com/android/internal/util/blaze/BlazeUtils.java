@@ -32,7 +32,7 @@ public class BlazeUtils {
         if (packageName != null) {
             try {
                 PackageInfo pi = context.getPackageManager().getPackageInfo(packageName, 0);
-                if (!pi.applicationInfo.enabled && !ignoreState) {
+                if ((!pi.applicationInfo.enabled || !pi.applicationInfo.isProduct()) && !ignoreState) {
                     return false;
                 }
             } catch (PackageManager.NameNotFoundException e) {
