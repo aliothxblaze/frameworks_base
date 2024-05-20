@@ -1715,4 +1715,11 @@
     <style name="ShortcutHelperTheme" parent="@style/ShortcutHelperThemeCommon">
         <item name="android:windowLightNavigationBar">true</item>
     </style>
+
+    <!-- Data usage -->
+    <style name="TextAppearance.QS.Status.DataUsage">
+        <item name="android:textColor">?attr/onSurfaceVariant</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:fontFamily">@*android:string/config_bodyFontFamily</item>
+    </style>
 </resources>
