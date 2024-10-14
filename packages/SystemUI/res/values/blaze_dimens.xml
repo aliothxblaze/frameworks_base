@@ -17,4 +17,9 @@
     <dimen name="qs_top_brightness_margin_top">8dp</dimen>
     <dimen name="qs_top_brightness_margin_bottom">10dp</dimen>
     <dimen name="qs_bottom_brightness_margin_top">10dp</dimen>
+
+    <!-- Lockscreen Clock/AOD -->  
+    <dimen name="custom_aod_image_size">180dp</dimen>
+    <dimen name="custom_clock_frame_margin_top">0dp</dimen>
+    <dimen name="keyguard_status_area_margin_top">0dp</dimen>
 </resources>
