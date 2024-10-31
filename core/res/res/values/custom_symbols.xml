@@ -85,11 +85,6 @@
     <java-symbol type="array" name="config_deviceKeyHandlerLibs" />
     <java-symbol type="array" name="config_deviceKeyHandlerClasses" />
 
-    <!-- Package Manager -->
-    <java-symbol type="array" name="config_deviceDisabledComponents" />
-    <java-symbol type="array" name="config_globallyDisabledComponents" />
-    <java-symbol type="array" name="config_forceEnabledComponents" />
-
     <!-- Location indicator -->
     <java-symbol type="drawable" name="stat_sys_location" />
 
